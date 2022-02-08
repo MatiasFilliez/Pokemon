@@ -29,6 +29,7 @@ const singUp = async (req, res) => {
 
 }
 
+
 module.exports = {
     singIn,
     singUp
