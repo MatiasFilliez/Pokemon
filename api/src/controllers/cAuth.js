@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken")
 
 const singIn = (req, res) => {
     const { email, password } = req.body;
-    const user = User.findOne({
+    User.findOne({
         where: {
             email: email
         }
