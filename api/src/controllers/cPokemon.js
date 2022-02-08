@@ -3,13 +3,8 @@ const { Pokemon, Type } = require("../db");
 
 const getPokeApi = async (prop) => {
     try {
-        const allPokeOrFind = Array(prop ? 1 : 200)
-            .fill()
-            .map((_, i) =>
-                axios
-                    .get(`https://pokeapi.co/api/v2/pokemon/${prop ? prop : i + 1}`)
-                    .then((response) => response.data)
-            );
+        const allPokeOrFind = Array(prop ? 1 : 200).fill().map((_, i) => axios.get(`https://pokeapi.co/api/v2/pokemon/${prop ? prop : i + 1}`).then((response) => response.data)
+        );
         return await Promise.all(allPokeOrFind).then((response) => {
             return response.map((poke) => ({
                 id: poke.id,
@@ -20,7 +15,8 @@ const getPokeApi = async (prop) => {
                 speed: poke.stats[5].base_stat,
                 height: poke.height,
                 weight: poke.weight,
-                img: `https://www.professorlotus.com/Sprites/${poke.name}.gif` || poke.sprites.other["official-artwork"].front_default
+                types: poke.types.map((prop) => ({ name: prop.type.name })),
+                img: `https://www.professorlotus.com/Sprites/${poke.name}.gif` /* || poke.sprites.other["official-artwork"].front_default */
             }));
         });
     } catch (error) {
@@ -45,8 +41,13 @@ const getPokeDb = async (prop) => {
             }
         } else {
             const dataBasePokemons = await Pokemon.findAll({
-                include: { model: Type },
+                include: {
+                    model: Type, attribute: ["name", "id"], through: {
+                        attributes: [],
+                    }
+                },
             });
+            console.log(dataBasePokemons)
             return dataBasePokemons;
         }
     } catch (error) {
@@ -89,7 +90,18 @@ const getAllPokemons = async (req, res) => {
     }
 };
 
+const postPokemon = async (req, res) => {
+    const { id, name, hp, force, defending, speed, height, weight, types, img } = req.body
+    const pokemonCreated = await Pokemon.create({
+        id, name, hp, force, defending, speed, height, weight, img
+    })
+    console.log(types)
+    await pokemonCreated.addType(types)
+    res.send(pokemonCreated)
+}
+
 module.exports = {
     getAllPokemons,
     getPokemonById,
+    postPokemon
 };
