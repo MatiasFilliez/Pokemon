@@ -42,12 +42,9 @@ const getPokeDb = async (prop) => {
         } else {
             const dataBasePokemons = await Pokemon.findAll({
                 include: {
-                    model: Type, attribute: ["name", "id"], through: {
-                        attributes: [],
-                    }
+                    model: Type
                 },
             });
-            console.log(dataBasePokemons)
             return dataBasePokemons;
         }
     } catch (error) {

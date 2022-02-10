@@ -1,0 +1,60 @@
+.container {
+  background-image: url("https://www.wallpapertip.com/wmimgs/81-813636_pokemon-new-tab-theme-hd-wallpapers-pokemon-tcg.jpg");
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  place-items: center;
+}
+
+.container div {
+  grid-column-start: 2;
+  grid-row-start: 2;
+}
+
+.pokeball {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  background: #fff;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 0 2px black;
+}
+.pokeball::before {
+  content: "";
+  position: absolute;
+  background: red;
+  width: 100%;
+  height: 50%;
+}
+.pokeball::after {
+  content: "";
+  position: absolute;
+  top: calc(52% - 3px);
+  width: 100%;
+  height: 50%;
+  background: white;
+  border-top: 5px solid;
+  text-decoration: none;
+}
+
+.pokeButtom {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  top: calc(48% - 15px - 4px);
+  left: calc(45% - 10px - 4px);
+  z-index: 10;
+  box-shadow: 0 0 0 2px black;
+  background: white;
+  text-decoration: none;
+}
+
+.link {
+  color: black;
+}
